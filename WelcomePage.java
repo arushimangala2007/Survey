@@ -43,8 +43,6 @@ import java.io.Writer;
 import java.security.NoSuchAlgorithmException;  
 import java.security.MessageDigest;   
 
-package welcome;
-
 class WelcomePagePanel extends JPanel
 {
 	private SurveyHolder sm;
@@ -61,6 +59,10 @@ class WelcomePagePanel extends JPanel
 		setLayout(null);
 		setBackground(color);
 
+}
+
+	public void set()
+	{
 		
 		JLabel welcomeLabel = new JLabel("Welcome to SurveyMedia!"); //welcome message
 		welcomeLabel.setFont(new Font("Times New Roman", Font.BOLD, 45));
@@ -109,3 +111,4 @@ class WelcomePagePanel extends JPanel
 			}
 		}
 	}
+}
