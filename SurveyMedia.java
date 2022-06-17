@@ -1,17 +1,10 @@
 //Arushi Singh
 //SurveyMedia.java
 //06-13-22
-
-
-
-
-
-
-
-
-
-
 //all the imports 
+
+
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
@@ -788,86 +781,15 @@ class Survey extends JPanel
 			}
 			else if(command.equals("Create a survey"))
 			{
-				WrittenNow wn = new WrittenNow(sl, mc, username);
-				sl.add(wn, "Written");
-				mc.show(sl, "Written");
+				Take tk = new Take(sl, mc, username);
+				sl.add(tk, "Take");
+				mc.show(sl, "Take");
 			}
 		}
 	}
 		
 		
 }
-/*
-class Create extends JPanel
-{
-	private SurveyHolder sl;
-	private CardLayout ct;
-	
-	public Create(SurveyHolder se, CardLayout ca)
-	{
-		sl = se;
-		ct = ca;
-		
-		setBackground(Color.YELLOW);
-		setLayout(null);
-		
-		JTextArea choose = new JTextArea("Choose the type of survey you want to create below. For each of them you will be able to ask 1-10 questions multiple choice or written.");
-		choose.setBounds(300, 150, 900, 200);
-		choose.setFont(new Font("Times New Roman", Font.BOLD, 37));
-		choose.setBackground(Color.YELLOW);
-		choose.setLineWrap(true); 
-		choose.setWrapStyleWord(true);
-		choose.setEditable(false);
-		add(choose);
-		
-		ButtonHandler bh = new ButtonHandler();
-		JButton home = new JButton("Home");
-		home.setBounds(50, 20, 100, 50);
-		add(home);
-		home.addActionListener(bh);
-		
-		JButton back = new JButton("Back");
-		back.setBounds(50, 700, 100, 50);
-		add(back);
-		back.addActionListener(bh);
-		
-		JButton multiple = new JButton("Multiple Choice Survey");
-		multiple.setBounds(350, 500, 300, 60);
-		multiple.setFont(new Font("Times New Roman", Font.BOLD, 22));
-		add(multiple);
-		multiple.addActionListener(bh);
-		
-		JButton wr = new JButton("Written Type Survey");
-		wr.setBounds(850, 500, 300, 60);
-		wr.setFont(new Font("Times New Roman", Font.BOLD, 22));
-		add(wr);
-		wr.addActionListener(bh);
-		
-		
-		
-	}
-	
-	class ButtonHandler implements ActionListener
-	{
-		public void actionPerformed(ActionEvent evt)
-		{
-			String command = evt.getActionCommand();
-			if(command.equals("Home"))
-			{
-				ct.show(sl, "First");
-			}
-			else if(command.equals("Back"))
-			{
-				ct.show(sl, "Survey");
-			}
-			else if(command.equals("Written Type Survey"))
-			{
-				ct.show(sl, "Written");
-			}
-		}
-	}
-}
-*/
 
 class WrittenNow extends JPanel
 {
@@ -884,13 +806,21 @@ class WrittenNow extends JPanel
 	private JTextField ninthQ;
 	private JTextField tenthQ;
 	private String userName;
+	private String[] questions;
+	private String sName;
+	private String instructions;
+	private int count;
 	
-	public WrittenNow(SurveyHolder sy, CardLayout ct, String name)
+	public WrittenNow(SurveyHolder sy, CardLayout ct, String name, String survey, String intro)
 	{
 		sl = sy;
 		ca = ct;
 		Color color = new Color(51, 204, 255);
 		userName = name;
+		questions = new String[10];
+		sName = survey;
+		instructions = intro;
+		count = 0;
 		
 		setBackground(color);
 		setLayout(null);
@@ -920,6 +850,7 @@ class WrittenNow extends JPanel
 		ja.setEditable(false);
 		add(ja);
 		
+		TextFieldHandler tfh = new TextFieldHandler();
 		JLabel first = new JLabel("Question 1:");
 		first.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		first.setBounds(60, 120, 200, 50);
@@ -929,18 +860,19 @@ class WrittenNow extends JPanel
 		firstQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		firstQ.setBounds(60, 170, 600, 38);
 		add(firstQ);
+		firstQ.addActionListener(tfh);
 		
 		JLabel second = new JLabel("Question 2:");
 		second.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		second.setBounds(60, 240, 200, 50);
-		add(second);
-		
-		
+		add(second);		
 		
 		secondQ = new JTextField("");
 		secondQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		secondQ.setBounds(60, 290, 600, 38);
 		add(secondQ);
+		secondQ.addActionListener(tfh);
+
 		
 		JLabel third = new JLabel("Question 3:");
 		third.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -951,6 +883,8 @@ class WrittenNow extends JPanel
 		thirdQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		thirdQ.setBounds(60, 410, 600, 38);
 		add(thirdQ);
+		thirdQ.addActionListener(tfh);
+
 		
 		JLabel fourth = new JLabel("Question 4:");
 		fourth.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -961,6 +895,7 @@ class WrittenNow extends JPanel
 		fourthQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		fourthQ.setBounds(60, 530, 600, 38);
 		add(fourthQ);
+		fourthQ.addActionListener(tfh);
 		
 		JLabel fifth = new JLabel("Question 5:");
 		fifth.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -971,6 +906,7 @@ class WrittenNow extends JPanel
 		fifthQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		fifthQ.setBounds(60, 650, 600, 38);
 		add(fifthQ);
+		fifthQ.addActionListener(tfh);
 		
 		JLabel sixth = new JLabel("Question 6:");
 		sixth.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -981,6 +917,7 @@ class WrittenNow extends JPanel
 		sixthQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		sixthQ.setBounds(800, 170, 600, 38);
 		add(sixthQ);
+		sixthQ.addActionListener(tfh);
 		
 		JLabel seventh = new JLabel("Question 7:");
 		seventh.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -991,6 +928,7 @@ class WrittenNow extends JPanel
 		seventhQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		seventhQ.setBounds(800, 290, 600, 38);
 		add(seventhQ);
+		seventhQ.addActionListener(tfh);
 		
 		JLabel eight = new JLabel("Question 8:");
 		eight.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -1001,6 +939,7 @@ class WrittenNow extends JPanel
 		eightQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		eightQ.setBounds(800, 410, 600, 38);
 		add(eightQ);
+		eightQ.addActionListener(tfh);
 		
 		JLabel ninth = new JLabel("Question 9:");
 		ninth.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -1011,6 +950,7 @@ class WrittenNow extends JPanel
 		ninthQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		ninthQ.setBounds(800, 530, 600, 38);
 		add(ninthQ);
+		ninthQ.addActionListener(tfh);
 		
 		JLabel tenth = new JLabel("Question 10:");
 		tenth.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -1021,6 +961,7 @@ class WrittenNow extends JPanel
 		tenthQ.setFont(new Font("Times New Roman", Font.BOLD, 17));
 		tenthQ.setBounds(800, 650, 600, 38);
 		add(tenthQ);
+		tenthQ.addActionListener(tfh);
 		
 		
 		
@@ -1030,9 +971,130 @@ class WrittenNow extends JPanel
 	{
 		public void actionPerformed(ActionEvent evt)
 		{
+			File ioFile = new File(sName + ".txt");
+			PrintWriter outFile = null;
+			try
+			{
+				outFile = new PrintWriter(ioFile);
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+				System.exit(1);
+			}
+			
+			outFile.println(userName);
+			outFile.println(sName);
+			outFile.println(instructions);
+			
+			if(!firstQ.getText().equals(""))
+			{
+				questions[0] = firstQ.getText();
+				System.out.print(questions[0]);
+				count++;
+				outFile.println(questions[0]);
+			}
+			else if(!secondQ.getText().equals(""))
+			{
+				questions[1] = secondQ.getText();
+				count++;
+				outFile.println(questions[1]);
+			}
+			else if(!thirdQ.getText().equals(""))
+			{
+				questions[2] = thirdQ.getText();
+				count++;
+				outFile.println(questions[2]);
+			}
+			else if(!fourthQ.getText().equals(""))
+			{
+				questions[3] = fourthQ.getText();
+				count++;
+				outFile.println(questions[3]);
+			}
+			else if(!fifthQ.getText().equals(""))
+			{
+				questions[4] = fifthQ.getText();
+				count++;
+				outFile.println(questions[4]);
+			}
+			else if(!sixthQ.getText().equals(""))
+			{
+				questions[5] = sixthQ.getText();
+				count++;
+				outFile.println(questions[5]);
+			}
+			else if(!seventhQ.getText().equals(""))
+			{
+				questions[6] = seventhQ.getText();
+				count++;
+				outFile.println(questions[6]);
+			}
+			else if(!eightQ.getText().equals(""))
+			{
+				questions[7] = eightQ.getText();
+				count++;
+				outFile.println(questions[7]);
+			}
+			else if(!ninthQ.getText().equals(""))
+			{
+				questions[8] = ninthQ.getText();
+				count++;
+				outFile.println(questions[8]);
+			}
+			else if(!tenthQ.getText().equals(""))
+			{
+				questions[9] = tenthQ.getText();
+				count++;
+				outFile.println(questions[9]);
+			}
+			
+			outFile.close();
+			
 			
 		}
 	}
+	
+	/*
+	public void printThis()
+	{
+		
+		File ioFile = new File(sName + ".txt");
+		PrintWriter outFile = null;
+		try
+		{
+			outFile = new PrintWriter(ioFile);
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		outFile.println(userName);
+		outFile.println(sName);
+		outFile.println(instructions);
+		outFile.close();
+		
+		
+		try(FileWriter fw = new FileWriter((sName + ".txt"), true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter out = new PrintWriter(bw))
+			{
+				for(int i = 0; i < questions.length; i++)
+				{
+					if(questions[i] != null)
+					{
+						out.println(questions[i]);
+					}
+				}
+						
+			} catch (IOException e) {
+				
+			}
+		
+	}
+	*/
 	
 	class ButtonHandler implements ActionListener
 	{
@@ -1045,16 +1107,15 @@ class WrittenNow extends JPanel
 			}
 			else if(command.equals("Back"))
 			{
-				ca.show(sl, "Create");
+				ca.show(sl, "Take");
 			}
 			else if(command.equals("Next"))
 			{
-				Take tk = new Take(sl, ca, userName);
-				sl.add(tk, "Take");
-				ca.show(sl, "Take");
+	
 			}
 		}
 	}
+	
 }
 
 class Take extends JPanel
@@ -1062,6 +1123,10 @@ class Take extends JPanel
 	private SurveyHolder sl;
 	private CardLayout ct;
 	private String name;
+	private JTextField jd;
+	private JTextField jf;
+	private String sName;
+	private String instructions;
 	
 	public Take(SurveyHolder sh, CardLayout ca, String username)
 	{
@@ -1083,7 +1148,13 @@ class Take extends JPanel
 		add(back);
 		back.addActionListener(ba);
 		
-		JTextArea jt = new JTextArea("Add a name for your survey down below and then add an instruction for the user to understand how to take the survey.");
+		JButton next = new JButton("Next");
+		next.setBounds(1300, 725, 100, 50);
+		add(next);
+		next.addActionListener(ba);
+		
+		TextFieldHandler th = new TextFieldHandler();
+		JTextArea jt = new JTextArea("Add a name for your survey down below and then add an instruction for the user to understand how to answer questions in the survey.");
 		jt.setBounds(300, 150, 900, 70);
 		jt.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		jt.setBackground(Color.YELLOW);
@@ -1091,25 +1162,59 @@ class Take extends JPanel
 		jt.setWrapStyleWord(true);
 		jt.setEditable(false);
 		add(jt);
-		
-		JTextField jd = new JTextField("Enter name for survey here");
+				
+		jd = new JTextField("Enter name for survey here");
 		jd.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		jd.setBounds(600, 300, 300, 50);
 		add(jd);
+		jd.addActionListener(th);
 		
-		JTextArea jf = new JTextArea("Enter instructions for survey here");
-		jf.setLineWrap(true); 
-		jf.setWrapStyleWord(true);
+		jf = new JTextField("Enter instructions for survey here.");
 		jf.setEditable(true);
-		jf.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		jf.setBounds(500, 400, 500, 300);
+		jf.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		jf.setBounds(400, 400, 700, 60);
 		add(jf);
-		
-		
-	
+		jf.addActionListener(th);
+
 		
 	}
+	class TextFieldHandler implements ActionListener
+	{
+		public void actionPerformed(ActionEvent evt)
+		{
+			if(!jd.getText().equals("") && !jf.getText().equals(""))
+			{
+				sName = jd.getText();
+				instructions = jf.getText();
+				createFile();
+			}
+
+		}
+	}
 	
+	public void createFile()
+	{
+		File file = new File(sName + ".txt");
+		
+		try {
+
+		 // create a new file with name specified
+		 // by the file object
+		 boolean value = file.createNewFile();
+		 if (value) {
+			System.out.println("New Java File is created.");
+		 }
+		 else {
+			System.out.println("The file already exists.");
+		 }
+		}
+		catch(Exception e) {
+		  e.getStackTrace();
+		}
+		
+		
+	}
+			
 	class ButtonHandler implements ActionListener
 	{
 		public void actionPerformed(ActionEvent evt)
@@ -1121,9 +1226,15 @@ class Take extends JPanel
 			}
 			else if(command.equals("Back"))
 			{
+				ct.show(sl, "Survey");
+			}
+			else if(command.equals("Next"))
+			{
+				WrittenNow wn = new WrittenNow(sl, ct, name, sName, instructions);
+				sl.add(wn, "Written");
 				ct.show(sl, "Written");
+			
 			}
 		}
 	}
 }
-	
